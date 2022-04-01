@@ -1,0 +1,5 @@
+DATA:
+  BATCH_SIZE: 512
+MODEL:
+  NAME: tran.base.bsz512.N6.H8.hid512
+  DROPOUT: 0.5
