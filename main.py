@@ -87,6 +87,7 @@ def main(conf):
                mode=wandb_mode)
     wandb.define_metric("train/ce_loss", summary="min")
     wandb.define_metric("val/pplx", summary="min")
+    wandb.define_metric("test/pplx", summary="min")
     wandb.run.log_code(".")
 
     os.makedirs(conf.OUTPUT, exist_ok=True)
@@ -94,6 +95,7 @@ def main(conf):
     start_epoch = conf.TRAIN.START_EPOCH
     num_epoch = conf.TRAIN.NUM_EPOCH
     best_val_pplx = np.inf
+    best_test_pplx = np.inf
     bsz = conf.DATA.BATCH_SIZE
     num_train_batch = int(np.ceil(len(train_set) / bsz))
 
@@ -134,6 +136,13 @@ def main(conf):
             print(
                 f"epoch #{epoch:3d} | val/pplx: {val_pplx:.4f} | val/best_pplx: {best_val_pplx:.4f}")
             wandb.log({"val/pplx": val_pplx}, step=epoch)
+
+            test_pplx = evaluate(model, test_loader)
+            if test_pplx < best_test_pplx:
+                best_test_pplx = test_pplx
+            wandb.log({"test/pplx": test_pplx}, step=epoch)
+            print(
+                f"epoch #{epoch:3d} | test/pplx: {test_pplx:.4f} | test/best_pplx: {best_test_pplx:.4f}")
 
 
 if __name__ == "__main__":

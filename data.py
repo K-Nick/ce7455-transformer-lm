@@ -110,7 +110,7 @@ def build_loader(conf):
                             pin_memory=True,
                             prefetch_factor=3,
                             num_workers=1)
-    test_loader = DataLoader(val_set,
+    test_loader = DataLoader(test_set,
                              batch_size=conf.DATA.BATCH_SIZE,
                              shuffle=False,
                              pin_memory=True,

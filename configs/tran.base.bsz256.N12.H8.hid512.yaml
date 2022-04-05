@@ -1,0 +1,6 @@
+DATA:
+  BATCH_SIZE: 256
+MODEL:
+  NAME: tran.base.bsz256.N12.H8.hid512
+  NLAYER: 12
+  DROPOUT: 0.5
